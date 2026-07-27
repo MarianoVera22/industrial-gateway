@@ -26,15 +26,9 @@ async def read_once() -> None:
 
         # Navegar hasta las variables por su path en el árbol.
         # Objects -> Maquina -> [variable]
-        temperature = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Temperatura"]
-        )
-        pressure = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Presion"]
-        )
-        machine_on = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:EnMarcha"]
-        )
+        temperature = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Temperatura"])
+        pressure = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Presion"])
+        machine_on = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:EnMarcha"])
         prod_counter = await client.nodes.objects.get_child(
             [f"{idx}:Maquina", f"{idx}:ContadorProduccion"]
         )
@@ -59,12 +53,8 @@ async def poll_loop(interval: float = 2.0) -> None:
     async with Client(url=SERVER_URL) as client:
         idx = await client.get_namespace_index(NAMESPACE_URI)
 
-        temperature = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Temperatura"]
-        )
-        pressure = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Presion"]
-        )
+        temperature = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Temperatura"])
+        pressure = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Presion"])
 
         logger.info("Iniciando polling cada %.1f segundos...", interval)
         while True:
@@ -72,6 +62,7 @@ async def poll_loop(interval: float = 2.0) -> None:
             pres = await pressure.read_value()
             logger.info("Temperatura=%.2f°C | Presión=%.2f bar", temp, pres)
             await asyncio.sleep(interval)
+
 
 """
 def main() -> None:
@@ -87,6 +78,8 @@ def main() -> None:
     except ConnectionError:
         logger.error("No se pudo conectar al servidor. ¿Está corriendo?")
 """
+
+
 def main() -> None:
     logging.basicConfig(
         level=logging.INFO,
@@ -107,9 +100,7 @@ class SubscriptionHandler:
     una variable suscrita cambia de valor.
     """
 
-    def datachange_notification(
-        self, node: object, value: object, data: object
-    ) -> None:
+    def datachange_notification(self, node: object, value: object, data: object) -> None:
         """Se ejecuta cuando una variable suscrita cambia.
 
         Args:
@@ -125,12 +116,8 @@ async def subscribe_loop() -> None:
     async with Client(url=SERVER_URL) as client:
         idx = await client.get_namespace_index(NAMESPACE_URI)
 
-        temperature = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Temperatura"]
-        )
-        pressure = await client.nodes.objects.get_child(
-            [f"{idx}:Maquina", f"{idx}:Presion"]
-        )
+        temperature = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Temperatura"])
+        pressure = await client.nodes.objects.get_child([f"{idx}:Maquina", f"{idx}:Presion"])
 
         # Crear la suscripción con nuestro handler.
         handler = SubscriptionHandler()
@@ -149,6 +136,7 @@ async def subscribe_loop() -> None:
                 await asyncio.sleep(1.0)
         finally:
             await subscription.delete()
+
 
 if __name__ == "__main__":
     main()

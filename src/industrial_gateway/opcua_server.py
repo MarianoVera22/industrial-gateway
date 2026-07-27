@@ -12,7 +12,7 @@ import logging
 import math
 import random
 
-from asyncua import Server, ua
+from asyncua import Server
 
 logger = logging.getLogger(__name__)
 
