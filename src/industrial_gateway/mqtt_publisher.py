@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import aiomqtt
 
 from industrial_gateway.gateway import DataPoint
+from industrial_gateway.retry import next_backoff
 
 logger = logging.getLogger(__name__)
 
@@ -65,4 +66,4 @@ async def publish_from_queue(queue: asyncio.Queue[DataPoint], config: MqttConfig
         except aiomqtt.MqttError as exc:
             logger.warning("MQTT desconectado (%s). Reintentando en %.1f s...", exc, backoff)
             await asyncio.sleep(backoff)
-            backoff = min(backoff * 2, config.reconnect_max_sec)
+            backoff = next_backoff(backoff, config.reconnect_max_sec)

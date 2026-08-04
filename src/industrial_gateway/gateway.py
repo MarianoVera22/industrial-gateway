@@ -15,6 +15,8 @@ from dataclasses import dataclass
 
 from asyncua import Client
 
+from industrial_gateway.retry import next_backoff
+
 logger = logging.getLogger(__name__)
 
 
@@ -94,7 +96,7 @@ class OpcuaGateway:
                 )
                 await asyncio.sleep(backoff)
                 # Backoff exponencial, limitado por el tope.
-                backoff = min(backoff * 2, self._config.reconnect_max_sec)
+                backoff = next_backoff(backoff, self._config.reconnect_max_sec)
 
     def stop(self) -> None:
         """Detiene el gateway tras la iteración en curso."""
