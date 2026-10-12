@@ -10,6 +10,7 @@ requires-python = ">=3.13"
 dependencies = [
     "aiomqtt>=2.5.1",
     "asyncua>=2.0.1",
+    "influxdb-client>=1.50.0",
 ]
 
 [project.scripts]
@@ -57,3 +58,12 @@ asyncio_mode = "auto"
 [[tool.mypy.overrides]]
 module = ["asyncua.*"]
 implicit_reexport = true
+
+[[tool.mypy.overrides]]
+module = ["influxdb_client.*"]
+implicit_reexport = true
+
+[[tool.mypy.overrides]]
+module = ["industrial_gateway.influx_writer"]
+disallow_untyped_calls = false
+warn_return_any = false
