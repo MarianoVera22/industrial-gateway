@@ -11,6 +11,7 @@ dependencies = [
     "aiomqtt>=2.5.1",
     "asyncua>=2.0.1",
     "influxdb-client>=1.50.0",
+    "python-dotenv>=1.2.4",
 ]
 
 [project.scripts]

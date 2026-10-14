@@ -10,19 +10,19 @@ from dataclasses import dataclass
 
 import aiomqtt
 
+from industrial_gateway.config import get_int, get_str
 from industrial_gateway.gateway import DataPoint
 from industrial_gateway.retry import next_backoff
 
 logger = logging.getLogger(__name__)
 
-
 @dataclass(frozen=True, slots=True)
 class MqttConfig:
     """Configuración de la conexión al broker MQTT."""
 
-    host: str = "localhost"
-    port: int = 1883
-    base_topic: str = "planta/maquina1"
+    host: str = get_str("MQTT_HOST", "localhost")
+    port: int = get_int("MQTT_PORT", 1883)
+    base_topic: str = get_str("MQTT_BASE_TOPIC", "planta/maquina1")
     reconnect_initial_sec: float = 1.0
     reconnect_max_sec: float = 30.0
 

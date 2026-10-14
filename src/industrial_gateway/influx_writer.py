@@ -19,6 +19,7 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.write_api import SYNCHRONOUS
 
+from industrial_gateway.config import get_int, get_str
 from industrial_gateway.retry import next_backoff
 
 logger = logging.getLogger(__name__)
@@ -28,10 +29,10 @@ logger = logging.getLogger(__name__)
 class InfluxConfig:
     """Configuración de la conexión a InfluxDB."""
 
-    url: str = "http://localhost:8086"
-    token: str = "mi-token-de-desarrollo"
-    org: str = "planta"
-    bucket: str = "industrial"
+    url: str = get_str("INFLUX_URL", "http://localhost:8086")
+    token: str = get_str("INFLUX_TOKEN", "mi-token-de-desarrollo")
+    org: str = get_str("INFLUX_ORG", "planta")
+    bucket: str = get_str("INFLUX_BUCKET", "industrial")
     measurement: str = "plc_data"
 
 
@@ -39,8 +40,8 @@ class InfluxConfig:
 class MqttSubConfig:
     """Configuración de la suscripción MQTT."""
 
-    host: str = "localhost"
-    port: int = 1883
+    host: str = get_str("MQTT_HOST", "localhost")
+    port: int = get_int("MQTT_PORT", 1883)
     topic_filter: str = "planta/+/+"
     reconnect_initial_sec: float = 1.0
     reconnect_max_sec: float = 30.0
