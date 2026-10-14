@@ -65,6 +65,6 @@ module = ["influxdb_client.*"]
 implicit_reexport = true
 
 [[tool.mypy.overrides]]
-module = ["industrial_gateway.influx_writer"]
+module = ["industrial_gateway.influx_writer","tests.test_influx_writer"]
 disallow_untyped_calls = false
 warn_return_any = false
