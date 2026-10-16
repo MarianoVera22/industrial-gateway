@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 class GatewayConfig:
     """Configuración del gateway."""
 
-    server_url: str = get_str(
-        "OPCUA_URL", "opc.tcp://localhost:4840/freeopcua/server/")
+    server_url: str = get_str("OPCUA_URL", "opc.tcp://localhost:4840/freeopcua/server/")
     namespace_uri: str = "http://industrial-gateway.demo"
     # Variables a monitorear: (nombre_objeto, nombre_variable).
     variables: tuple[tuple[str, str], ...] = (

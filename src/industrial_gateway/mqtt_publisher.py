@@ -16,6 +16,7 @@ from industrial_gateway.retry import next_backoff
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass(frozen=True, slots=True)
 class MqttConfig:
     """Configuración de la conexión al broker MQTT."""

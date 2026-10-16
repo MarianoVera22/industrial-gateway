@@ -64,9 +64,7 @@ def test_build_point_guarda_el_valor_como_field() -> None:
         (False, "value=0"),
     ],
 )
-def test_build_point_convierte_booleanos_a_numeros(
-    valor: bool, esperado: str
-) -> None:
+def test_build_point_convierte_booleanos_a_numeros(valor: bool, esperado: str) -> None:
     """Los booleanos se guardan como 1/0 para poder graficarlos."""
     payload = json.dumps({"variable": "EnMarcha", "value": valor})
     point = build_point("planta/maquina1/enmarcha", payload, MEASUREMENT)
@@ -93,9 +91,7 @@ def test_build_point_usa_el_timestamp_del_payload() -> None:
 
 def test_build_point_acepta_timestamp_invalido_sin_fallar() -> None:
     """Un timestamp mal formado no rompe: se usa la hora actual."""
-    payload = json.dumps(
-        {"variable": "Temperatura", "value": 20.0, "timestamp": "ayer a la tarde"}
-    )
+    payload = json.dumps({"variable": "Temperatura", "value": 20.0, "timestamp": "ayer a la tarde"})
     point = build_point("planta/maquina1/temperatura", payload, MEASUREMENT)
 
     assert point is not None  # el punto se construye igual

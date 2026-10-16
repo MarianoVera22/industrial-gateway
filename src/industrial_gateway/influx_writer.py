@@ -107,9 +107,7 @@ def build_point(topic: str, payload: str, measurement: str) -> Point | None:
     return point
 
 
-async def consume_and_store(
-    mqtt_config: MqttSubConfig, influx_config: InfluxConfig
-) -> None:
+async def consume_and_store(mqtt_config: MqttSubConfig, influx_config: InfluxConfig) -> None:
     """Se suscribe a MQTT y escribe cada mensaje en InfluxDB."""
     backoff = mqtt_config.reconnect_initial_sec
 
@@ -137,9 +135,7 @@ async def consume_and_store(
                     async for message in client.messages:
                         topic = str(message.topic)
                         raw = message.payload
-                        payload = (
-                            raw.decode("utf-8") if isinstance(raw, bytes) else str(raw)
-                        )
+                        payload = raw.decode("utf-8") if isinstance(raw, bytes) else str(raw)
 
                         point = build_point(topic, payload, influx_config.measurement)
                         if point is None:
@@ -159,9 +155,7 @@ async def consume_and_store(
                             )
 
             except aiomqtt.MqttError as exc:
-                logger.warning(
-                    "MQTT desconectado (%s). Reintentando en %.1f s...", exc, backoff
-                )
+                logger.warning("MQTT desconectado (%s). Reintentando en %.1f s...", exc, backoff)
                 await asyncio.sleep(backoff)
                 backoff = next_backoff(backoff, mqtt_config.reconnect_max_sec)
 
